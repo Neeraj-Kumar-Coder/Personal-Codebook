@@ -1,0 +1,62 @@
+class Union_Find
+{
+private:
+    int *parent;
+    int *rank;
+    int numberOfNodes;
+    int numberOfComponents;
+
+public:
+    Union_Find(const int size) : numberOfNodes(size), numberOfComponents(size)
+    {
+        parent = new int[size];
+        rank = new int[size];
+        for (int i = 0; i < size; i++)
+        {
+            parent[i] = i;
+            rank[i] = 0;
+        }
+    }
+
+    int find(int x)
+    {
+        if (x == parent[x])
+            return x;
+        return parent[x] = find(parent[x]);
+    }
+
+    void connect(int x, int y)
+    {
+        int px = find(x), py = find(y);
+        if (px == py)
+            return;
+
+        numberOfComponents--;
+
+        if (rank[px] > rank[py])
+            parent[py] = px;
+        else if (rank[py] > rank[px])
+            parent[px] = py;
+        else
+        {
+            parent[py] = px;
+            rank[px]++;
+        }
+    }
+
+    bool connected(int x, int y)
+    {
+        return find(x) == find(y);
+    }
+
+    int countOfComponents(void)
+    {
+        return numberOfComponents;
+    }
+
+    ~Union_Find(void)
+    {
+        delete[] parent;
+        delete[] rank;
+    }
+};
