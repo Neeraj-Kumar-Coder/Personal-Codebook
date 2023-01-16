@@ -10,3 +10,9 @@
 - <font size="3"> [Union Find](Union_Find.txt) </font>
 >> **Time Complexity:** O(logn)<br />
 >> **Space Complexity:** O(n)
+
+- <font size="3">[Segment Tree For Minimum](Segment_Tree.txt) </font>
+>> **Time Complexity (Building):** O(n) <br />
+>> **Time Complexity (Query):** O(logn) <br />
+>> **Time Complexity (Update):** O(logn) <br />
+>> **Space Complexity:** O(n)

@@ -1,0 +1,98 @@
+#define int long long int
+#define NO_OPERATION 0
+
+class Segment_Tree
+{
+private:
+    vector<int> seg_tree;
+    vector<int> pending;
+    int arr_size;
+
+    void propogate(int low, int high, int seg_index)
+    {
+        if (low == high || pending[seg_index] == NO_OPERATION)
+            return;
+
+        pending[2 * seg_index + 1] += pending[seg_index];
+        pending[2 * seg_index + 2] += pending[seg_index];
+
+        seg_tree[2 * seg_index + 1] += pending[seg_index];
+        seg_tree[2 * seg_index + 2] += pending[seg_index];
+
+        pending[seg_index] = NO_OPERATION;
+    }
+
+    void build(int low, int high, int seg_index, vector<int> const &arr)
+    {
+        if (low == high)
+        {
+            seg_tree[seg_index] = arr[low];
+            return;
+        }
+
+        int mid = low + (high - low) / 2;
+        build(low, mid, 2 * seg_index + 1, arr);
+        build(mid + 1, high, 2 * seg_index + 2, arr);
+        seg_tree[seg_index] = min(seg_tree[2 * seg_index + 1], seg_tree[2 * seg_index + 2]);
+    }
+
+    void increment(int low, int high, int seg_index, int start, int end, int value)
+    {
+        propogate(low, high, seg_index);
+
+        if (start <= low && end >= high)
+        {
+            pending[seg_index] += value;
+            seg_tree[seg_index] += value;
+            return;
+        }
+
+        if (start > high || end < low)
+            return;
+
+        int mid = low + (high - low) / 2;
+        increment(low, mid, 2 * seg_index + 1, start, end, value);
+        increment(mid + 1, high, 2 * seg_index + 2, start, end, value);
+
+        seg_tree[seg_index] = min(seg_tree[2 * seg_index + 1], seg_tree[2 * seg_index + 2]);
+    }
+
+    int getMinimum(int low, int high, int seg_index, int start, int end)
+    {
+        propogate(low, high, seg_index);
+        if (start <= low && end >= high)
+            return seg_tree[seg_index];
+
+        if (start > high || end < low)
+            return LLONG_MAX;
+
+        int mid = low + (high - low) / 2;
+        int left = getMinimum(low, mid, 2 * seg_index + 1, start, end);
+        int right = getMinimum(mid + 1, high, 2 * seg_index + 2, start, end);
+        return min(left, right);
+    }
+
+public:
+    Segment_Tree(vector<int> const &arr)
+    {
+        build(arr);
+    }
+
+    void build(vector<int> const &arr)
+    {
+        arr_size = arr.size();
+        seg_tree.resize(1 << signed((ceil(log2(arr_size))) + 1), 0);
+        pending.resize(1 << signed((ceil(log2(arr_size))) + 1), NO_OPERATION);
+        build(0, arr_size - 1, 0, arr);
+    }
+
+    void increment(int start, int end, int value)
+    {
+        increment(0, arr_size - 1, 0, start, end, value);
+    }
+
+    int getMinimum(int start, int end)
+    {
+        return getMinimum(0, arr_size - 1, 0, start, end);
+    }
+};
