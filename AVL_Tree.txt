@@ -1,0 +1,328 @@
+template <typename T>
+struct AVL_Tree_Node
+{
+    T value;
+    long long int frequency;
+    long long int height;
+    long long int sizeOfSubtree;
+    AVL_Tree_Node *left;
+    AVL_Tree_Node *right;
+
+    AVL_Tree_Node(void)
+    {
+        this->height = this->frequency = this->sizeOfSubtree = 1;
+        this->left = this->right = nullptr;
+    }
+
+    AVL_Tree_Node(T value) : AVL_Tree_Node()
+    {
+        this->value = value;
+    }
+};
+
+template <typename T>
+class AVL_Tree
+{
+private:
+    AVL_Tree_Node<T> *root;
+
+    AVL_Tree_Node<T> *LL_Rotate(AVL_Tree_Node<T> *A)
+    {
+        AVL_Tree_Node<T> *B = A->left;
+        AVL_Tree_Node<T> *Br = B->right;
+
+        B->right = A;
+        A->left = Br;
+
+        A->sizeOfSubtree = getSizeOfSubtree(A);
+        B->sizeOfSubtree = getSizeOfSubtree(B);
+
+        A->height = getHeight(A);
+        B->height = getHeight(B);
+
+        return B;
+    }
+
+    AVL_Tree_Node<T> *RR_Rotate(AVL_Tree_Node<T> *A)
+    {
+        AVL_Tree_Node<T> *B = A->right;
+        AVL_Tree_Node<T> *Bl = B->left;
+
+        B->left = A;
+        A->right = Bl;
+
+        A->sizeOfSubtree = getSizeOfSubtree(A);
+        B->sizeOfSubtree = getSizeOfSubtree(B);
+
+        A->height = getHeight(A);
+        B->height = getHeight(B);
+
+        return B;
+    }
+
+    AVL_Tree_Node<T> *LR_Rotate(AVL_Tree_Node<T> *A)
+    {
+        AVL_Tree_Node<T> *B = A->left;
+        AVL_Tree_Node<T> *C = B->right;
+        AVL_Tree_Node<T> *Cl = C->left;
+        AVL_Tree_Node<T> *Cr = C->right;
+
+        C->left = B;
+        C->right = A;
+        B->right = Cl;
+        A->left = Cr;
+
+        A->sizeOfSubtree = getSizeOfSubtree(A);
+        B->sizeOfSubtree = getSizeOfSubtree(B);
+        C->sizeOfSubtree = getSizeOfSubtree(C);
+
+        A->height = getHeight(A);
+        B->height = getHeight(B);
+        C->height = getHeight(C);
+
+        return C;
+    }
+
+    AVL_Tree_Node<T> *RL_Rotate(AVL_Tree_Node<T> *A)
+    {
+        AVL_Tree_Node<T> *B = A->right;
+        AVL_Tree_Node<T> *C = B->left;
+        AVL_Tree_Node<T> *Cl = C->left;
+        AVL_Tree_Node<T> *Cr = C->right;
+
+        C->left = A;
+        C->right = B;
+        A->right = Cl;
+        B->left = Cr;
+
+        A->sizeOfSubtree = getSizeOfSubtree(A);
+        B->sizeOfSubtree = getSizeOfSubtree(B);
+        C->sizeOfSubtree = getSizeOfSubtree(C);
+
+        A->height = getHeight(A);
+        B->height = getHeight(B);
+        C->height = getHeight(C);
+
+        return C;
+    }
+
+    AVL_Tree_Node<T> *getInorderSuccessor(AVL_Tree_Node<T> *current)
+    {
+        current = current->right;
+        while (current->left)
+            current = current->left;
+        return current;
+    }
+
+    AVL_Tree_Node<T> *insert(AVL_Tree_Node<T> *current, const T value, const long long int insertTimes)
+    {
+        if (!current)
+            return new AVL_Tree_Node<T>(value);
+
+        if (current->value == value)
+        {
+            current->frequency += insertTimes;
+            current->sizeOfSubtree += insertTimes;
+            return current;
+        }
+
+        if (current->value > value)
+            current->left = insert(current->left, value, insertTimes);
+        else
+            current->right = insert(current->right, value, insertTimes);
+
+        current->height = getHeight(current);
+        current->sizeOfSubtree = getSizeOfSubtree(current);
+
+        long long int rootBalanceFactor = getBalanceFactor(current);
+        long long int leftSubtreeBalanceFactor = getBalanceFactor(current->left);
+        long long int rightSubtreeBalanceFactor = getBalanceFactor(current->right);
+
+        if (rootBalanceFactor == -2)
+        {
+            if (leftSubtreeBalanceFactor == 1)
+                return LR_Rotate(current);
+            else
+                return LL_Rotate(current);
+        }
+
+        if (rootBalanceFactor == 2)
+        {
+            if (rightSubtreeBalanceFactor == -1)
+                return RL_Rotate(current);
+            else
+                return RR_Rotate(current);
+        }
+
+        return current;
+    }
+
+    AVL_Tree_Node<T> *remove(AVL_Tree_Node<T> *current, const T value, const long long int removeTimes)
+    {
+        if (!current)
+            return nullptr;
+
+        if (current->value == value)
+        {
+            if (current->frequency -= removeTimes)
+            {
+                current->sizeOfSubtree -= removeTimes;
+                return current;
+            }
+
+            if (!current->left && !current->right)
+            {
+                delete current;
+                return nullptr;
+            }
+
+            if (!current->left)
+            {
+                AVL_Tree_Node<T> *temp = current->right;
+                *current = *current->right;
+                delete temp;
+                return current;
+            }
+
+            if (!current->right)
+            {
+                AVL_Tree_Node<T> *temp = current->left;
+                *current = *current->left;
+                delete temp;
+                return current;
+            }
+
+            AVL_Tree_Node<T> *inorderSuccessor = getInorderSuccessor(current);
+
+            T inorderSuccessorValue = inorderSuccessor->value;
+            current->frequency = inorderSuccessor->frequency;
+
+            AVL_Tree_Node<T> *newRoot = remove(current, inorderSuccessor->value, inorderSuccessor->frequency);
+
+            current->value = inorderSuccessorValue;
+
+            return newRoot;
+        }
+
+        if (current->value > value)
+            current->left = remove(current->left, value, removeTimes);
+        else
+            current->right = remove(current->right, value, removeTimes);
+
+        current->height = getHeight(current);
+        current->sizeOfSubtree = getSizeOfSubtree(current);
+
+        long long int rootBalanceFactor = getBalanceFactor(current);
+        long long int leftSubtreeBalanceFactor = getBalanceFactor(current->left);
+        long long int rightSubtreeBalanceFactor = getBalanceFactor(current->right);
+
+        if (rootBalanceFactor == -2)
+        {
+            if (leftSubtreeBalanceFactor == 1)
+                return LR_Rotate(current);
+            else
+                return LL_Rotate(current);
+        }
+
+        if (rootBalanceFactor == 2)
+        {
+            if (rightSubtreeBalanceFactor == -1)
+                return RL_Rotate(current);
+            else
+                return RR_Rotate(current);
+        }
+
+        return current;
+    }
+
+public:
+    AVL_Tree(void)
+    {
+        this->root = nullptr;
+    }
+
+    long long int getHeight(const AVL_Tree_Node<T> *const current)
+    {
+        if (!current)
+            return 0;
+
+        long long int leftSubtreeHeight = current->left ? current->left->height : 0;
+        long long int rightSubtreeHeight = current->right ? current->right->height : 0;
+
+        return max(leftSubtreeHeight, rightSubtreeHeight) + 1;
+    }
+
+    long long int getSizeOfSubtree(const AVL_Tree_Node<T> *const current)
+    {
+        if (!current)
+            return 0;
+
+        long long int leftSubtreeSize = current->left ? current->left->sizeOfSubtree : 0;
+        long long int rightSubtreeSize = current->right ? current->right->sizeOfSubtree : 0;
+
+        return leftSubtreeSize + rightSubtreeSize + current->frequency;
+    }
+
+    long long int getBalanceFactor(const AVL_Tree_Node<T> *const current)
+    {
+        if (!current)
+            return 0;
+
+        return getHeight(current->right) - getHeight(current->left);
+    }
+
+    void insert(const T value, const long long int insertTimes = 1)
+    {
+        this->root = insert(root, value, insertTimes);
+    }
+
+    const AVL_Tree_Node<T> *find(const T value)
+    {
+        AVL_Tree_Node<T> *current = this->root;
+
+        while (current)
+        {
+            if (current->value == value)
+                return current;
+
+            if (current->value > value)
+                current = current->left;
+            else
+                current = current->right;
+        }
+
+        return nullptr;
+    }
+
+    void remove(const T value, const long long int frequency = 1)
+    {
+        this->root = remove(this->root, value, frequency);
+    }
+
+    long long int numberOfValuesGreaterThan(const T value)
+    {
+        AVL_Tree_Node<T> *current = this->root;
+        long long int count = 0;
+
+        while (current)
+        {
+            if (current->value == value)
+            {
+                count += getSizeOfSubtree(current->right);
+                break;
+            }
+
+            if (current->value > value)
+            {
+                count += getSizeOfSubtree(current->right) + current->frequency;
+                current = current->left;
+            }
+            else
+            {
+                current = current->right;
+            }
+        }
+
+        return count;
+    }
+};
