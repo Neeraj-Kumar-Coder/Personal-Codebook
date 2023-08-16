@@ -4,27 +4,32 @@
 ## Contents
 
 - <font size="3"> [Suffix Array](Suffix_Array.txt) </font>
->> **Time Complexity:** O(nlogn)<br />
+>> **Time Complexity:** O(nlog(n))<br />
 >> **Space Complexity:** O(n)
 
 - <font size="3"> [Union Find](Union_Find.txt) </font>
->> **Time Complexity:** O(logn)<br />
+>> **Time Complexity:** O(log(n))<br />
 >> **Space Complexity:** O(n)
 
 - <font size="3">[Segment Tree For Minimum (Point Update)](Segment_Tree_Point.txt) </font>
 >> **Time Complexity (Building):** O(n) <br />
->> **Time Complexity (Query):** O(logn) <br />
->> **Time Complexity (Update):** O(logn) <br />
+>> **Time Complexity (Query):** O(log(n)) <br />
+>> **Time Complexity (Update):** O(log(n)) <br />
 >> **Space Complexity:** O(n)
 
 - <font size="3">[Segment Tree For Minimum (Mass Update)](Segment_Tree_Mass.txt) </font>
 >> **Time Complexity (Building):** O(n) <br />
->> **Time Complexity (Query):** O(logn) <br />
->> **Time Complexity (Update):** O(logn) <br />
+>> **Time Complexity (Query):** O(log(n)) <br />
+>> **Time Complexity (Update):** O(log(n)) <br />
 >> **Space Complexity:** O(n)
 
 - <font size="3">[AVL Tree (Generic)](AVL_Tree.txt) </font>
->> **Time Complexity (insert):** O(logn) <br />
->> **Time Complexity (remove):** O(logn) <br />
->> **Time Complexity (countOfGreater):** O(logn) <br />
+>> **Time Complexity (insert):** O(log(n)) <br />
+>> **Time Complexity (remove):** O(log(n)) <br />
+>> **Time Complexity (countOfGreater):** O(log(n)) <br />
+>> **Space Complexity:** O(n)
+
+- <font size="3">[Window Manager](Window_Manager.txt) </font>
+>> **Time Complexity (push):** O(1) [Average] <br />
+>> **Time Complexity (pop):** O(1) [Average] <br />
 >> **Space Complexity:** O(n)

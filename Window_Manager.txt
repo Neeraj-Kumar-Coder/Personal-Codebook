@@ -1,0 +1,39 @@
+template<typename T>
+class Window_Manager
+{
+private:
+    deque<T> maxCollection;
+    deque<T> minCollection;
+
+public:
+    void push(const T value)
+    {
+        while (!maxCollection.empty() && maxCollection.back() < value)
+            maxCollection.pop_back();
+
+        while (!minCollection.empty() && minCollection.back() > value)
+            minCollection.pop_back();
+
+        maxCollection.push_back(value);
+        minCollection.push_back(value);
+    }
+
+    void pop(const T value)
+    {
+        if (!maxCollection.empty() && maxCollection.front() == value)
+            maxCollection.pop_front();
+
+        if (!minCollection.empty() && minCollection.front() == value)
+            minCollection.pop_front();
+    }
+
+    T getMax(void)
+    {
+        return maxCollection.front();
+    }
+
+    T getMin(void)
+    {
+        return minCollection.front();
+    }
+};
