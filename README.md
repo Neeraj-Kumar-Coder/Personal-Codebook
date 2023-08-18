@@ -26,6 +26,7 @@
 - <font size="3">[AVL Tree (Generic)](AVL_Tree.txt) </font>
 >> **Time Complexity (insert):** O(log(n)) <br />
 >> **Time Complexity (remove):** O(log(n)) <br />
+>> **Time Complexity (kthLargestElement):** O(log(n)) <br />
 >> **Time Complexity (countOfGreater):** O(log(n)) <br />
 >> **Space Complexity:** O(n)
 

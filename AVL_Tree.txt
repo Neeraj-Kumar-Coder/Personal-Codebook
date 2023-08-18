@@ -299,6 +299,23 @@ public:
         this->root = remove(this->root, value, frequency);
     }
 
+    const AVL_Tree_Node<T> *kthLargestElement(T k)
+    {
+        AVL_Tree_Node<T> *current = this->root;
+
+        while (current)
+        {
+            if (getSizeOfSubtree(current->left) >= k)
+                current = current->left;
+            else if (getSizeOfSubtree(current->left) + current->frequency >= k)
+                return current;
+            else
+                k -= getSizeOfSubtree(current->left) + current->frequency, current = current->right;
+        }
+
+        return nullptr;
+    }
+
     long long int numberOfValuesGreaterThan(const T value)
     {
         AVL_Tree_Node<T> *current = this->root;
