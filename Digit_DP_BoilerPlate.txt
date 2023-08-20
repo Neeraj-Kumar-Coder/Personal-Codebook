@@ -1,0 +1,37 @@
+int digitDP(const string &num1, const string &num2, int index, int largeThanNum1, int smallThanNum2)
+{
+    int n = num1.length();
+
+    if (index == n)
+        return 0;
+
+    int start = num1[index] - '0', end = num2[index] - '0';
+
+    if (largeThanNum1)
+        start = 0;
+
+    if (smallThanNum2)
+        end = 9;
+
+    int answer = 0;
+    for (int digit = start; digit <= end; digit++)
+    {
+        ;
+    }
+
+    return answer;
+}
+
+int digitDP(const string &low, const string &high, int k)
+{
+    string num1 = low, num2 = high;
+
+    reverse(num1.begin(), num1.end());
+
+    while (num1.length() != num2.length())
+        num1.push_back('0');
+
+    reverse(num1.begin(), num1.end());
+
+    return digitDP(num1, num2, 0, 0, 0);
+}
