@@ -38,3 +38,9 @@
 - <font size="3">[Digit DP BoilerPlate](Digit_DP_BoilerPlate.txt) </font>
 >> **Time Complexity:** Depends On The Specific Question <br />
 >> **Space Complexity:** Depends On The Specific Question
+
+- <font size="3">[Binary Lifter](Binary_Lifter.txt) </font>
+>> **Time Complexity (build):** O(nlog(n)) <br />
+>> **Time Complexity (getKthAncestor):** O(log(n)) <br />
+>> **Time Complexity (getLCA):** O(log(n)) <br />
+>> **Space Complexity:** O(nlog(n))

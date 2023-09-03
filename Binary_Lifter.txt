@@ -1,0 +1,74 @@
+class Binary_Lifter
+{
+private:
+    vector<vector<int>> up;
+    vector<int> parent;
+    vector<int> depth;
+    int LOG;
+
+public:
+    Binary_Lifter(void)
+    {
+        ;
+    }
+
+    Binary_Lifter(vector<int> &parent, vector<int> &depth)
+    {
+        build(parent, depth);
+    }
+
+    void build(vector<int> &parent, vector<int> &depth)
+    {
+        int nodes = parent.size();
+        this->LOG = 0;
+
+        while ((1LL << (this->LOG + 1)) <= nodes)
+            ++this->LOG;
+
+        this->up.resize(nodes, vector<int>(this->LOG + 1));
+        this->parent = parent;
+        this->depth = depth;
+
+        for (int node = 0; node < nodes; node++)
+            this->up[node][0] = parent[node];
+
+        for (int jump = 1; jump <= LOG; jump++)
+            for (int node = 0; node < nodes; node++)
+                this->up[node][jump] = this->up[node][jump - 1] != -1 ? this->up[this->up[node][jump - 1]][jump - 1] : -1;
+    }
+
+    int getKthAncestor(int node, int k)
+    {
+        int ancestor = node;
+
+        for (int shift = 0; (1LL << shift) <= k; shift++)
+            if (k & (1LL << shift))
+                ancestor = ancestor != -1 ? this->up[ancestor][shift] : -1;
+
+        return ancestor;
+    }
+
+    int getLCA(int node1, int node2)
+    {
+        if (depth[node1] < depth[node2])
+            swap(node1, node2);
+
+        int extra = depth[node1] - depth[node2];
+
+        node1 = getKthAncestor(node1, extra);
+
+        if (node1 == node2)
+            return node1;
+
+        for (int jump = LOG; jump >= 0; jump--)
+        {
+            if (up[node1][jump] != up[node2][jump])
+            {
+                node1 = up[node1][jump];
+                node2 = up[node2][jump];
+            }
+        }
+
+        return up[node1][0];
+    }
+};
