@@ -46,8 +46,9 @@
 >> **Space Complexity:** $O(n\log{n})$
 
 - <font size="3">[Trie Numeric](Trie_Numeric.txt) </font>
->> **Time Complexity (insert):** $O(MAX\_SHIFT)$ (or $O(1)$) <br />
->> **Time Complexity (remove):** $O(MAX\_SHIFT)$ (or $O(1)$) <br />
->> **Time Complexity (contain):** $O(MAX\_SHIFT)$ (or $O(1)$) <br />
->> **Time Complexity (findPairForMaxXor):** $O(MAX\_SHIFT)$ (or $O(1)$) <br />
->> **Space Complexity:** O($2^{MAX\_SHIFT}$)
+>> **Time Complexity (insert):** $O(BITS)$ <br />
+>> **Time Complexity (remove):** $O(BITS)$ <br />
+>> **Time Complexity (contain):** $O(BITS)$ <br />
+>> **Time Complexity (findPairForMaxXor):** $O(BITS)$ <br />
+>> **Space Complexity:** O($2^{BITS}$) <br />
+>> `[Here BITS is the maximum number of bits in the binary representation of the inserted numbers]`
