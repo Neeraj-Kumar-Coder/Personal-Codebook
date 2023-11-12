@@ -44,3 +44,10 @@
 >> **Time Complexity (getKthAncestor):** O(log(n)) <br />
 >> **Time Complexity (getLCA):** O(log(n)) <br />
 >> **Space Complexity:** O(nlog(n))
+
+- <font size="3">[Trie Numeric](Trie_Numeric.txt) </font>
+>> **Time Complexity (insert):** O(MAX_SHIFT) (or O(1)) <br />
+>> **Time Complexity (remove):** O(MAX_SHIFT) (or O(1)) <br />
+>> **Time Complexity (contain):** O(MAX_SHIFT) (or O(1)) <br />
+>> **Time Complexity (findPairForMaxXor):** O(MAX_SHIFT) (or O(1)) <br />
+>> **Space Complexity:** O($2^{MAX\_SHIFT}$)

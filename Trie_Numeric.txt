@@ -1,0 +1,132 @@
+#define NUMERIC_DATA_TYPE long long int
+#define MAX_SHIFT 63
+
+struct Trie_Numeric_Node
+{
+    NUMERIC_DATA_TYPE frequency;
+    Trie_Numeric_Node *zero;
+    Trie_Numeric_Node *one;
+
+    Trie_Numeric_Node(void)
+    {
+        this->frequency = 0;
+        this->one = this->zero = nullptr;
+    }
+};
+
+class Trie_Numeric
+{
+private:
+    Trie_Numeric_Node *root;
+
+    bool remove(Trie_Numeric_Node *current, const NUMERIC_DATA_TYPE number, int shift)
+    {
+        if (shift < 0)
+            return --current->frequency == 0;
+
+        if (number & (1LL << shift))
+        {
+            if (remove(current->one, number, shift - 1))
+            {
+                delete current->one;
+                current->one = nullptr;
+                return !current->zero && !current->one;
+            }
+
+            return false;
+        }
+
+        if (remove(current->zero, number, shift - 1))
+        {
+            delete current->zero;
+            current->zero = nullptr;
+            return !current->zero && !current->one;
+        }
+
+        return false;
+    }
+
+public:
+    Trie_Numeric(void) : root(new Trie_Numeric_Node()) {}
+
+    void insert(const NUMERIC_DATA_TYPE number)
+    {
+        Trie_Numeric_Node *current = root;
+        for (int shift = MAX_SHIFT; shift >= 0; shift--)
+        {
+            if (number & (1LL << shift))
+            {
+                if (!current->one)
+                    current->one = new Trie_Numeric_Node();
+                current = current->one;
+            }
+            else
+            {
+                if (!current->zero)
+                    current->zero = new Trie_Numeric_Node();
+                current = current->zero;
+            }
+        }
+        current->frequency++;
+    }
+
+    bool remove(const NUMERIC_DATA_TYPE number)
+    {
+        return remove(root, number, MAX_SHIFT);
+    }
+
+    bool contain(const NUMERIC_DATA_TYPE number)
+    {
+        Trie_Numeric_Node *current = root;
+        for (int shift = MAX_SHIFT; shift >= 0; shift--)
+        {
+            if (!current)
+                return false;
+
+            if (number & (1LL << shift))
+                current = current->one;
+            else
+                current = current->zero;
+        }
+
+        return current && current->frequency;
+    }
+
+    NUMERIC_DATA_TYPE findPairForMaxXor(const NUMERIC_DATA_TYPE number)
+    {
+        Trie_Numeric_Node *current = root;
+        NUMERIC_DATA_TYPE partner = 0;
+
+        for (int shift = MAX_SHIFT; shift >= 0; shift--)
+        {
+            if (number & (1LL << shift))
+            {
+                if (current->zero)
+                {
+                    partner |= (0LL << shift);
+                    current = current->zero;
+                }
+                else
+                {
+                    partner |= (1LL << shift);
+                    current = current->one;
+                }
+            }
+            else
+            {
+                if (current->one)
+                {
+                    partner |= (1LL << shift);
+                    current = current->one;
+                }
+                else
+                {
+                    partner |= (0LL << shift);
+                    current = current->zero;
+                }
+            }
+        }
+
+        return partner;
+    }
+};
