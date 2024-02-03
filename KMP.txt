@@ -1,0 +1,58 @@
+class KMP
+{
+private:
+    string pattern;
+    vector<int> lps;
+
+public:
+    KMP(void) {}
+    
+    KMP(const string &pattern)
+    {
+        build(pattern);
+    }
+    
+    void build(const string &pattern)
+    {
+        int n = pattern.length();
+        this->pattern = pattern;
+        lps.resize(n);
+        
+        int prevLPS = 0, index = 1;
+        while (index < n)
+        {
+            if (pattern[prevLPS] == pattern[index])
+                lps[index++] = ++prevLPS;
+            else if (prevLPS > 0)
+                prevLPS = lps[prevLPS - 1];
+            else
+                lps[index++] = 0;
+        }
+    }
+    
+    vector<int> getMatches(const string &text)
+    {
+        int i = 0, j = 0, n = pattern.length(), m = text.length();
+        
+        vector<int> matches;
+        while (j < m)
+        {
+            if (pattern[i] == text[j])
+                ++i, ++j;
+            else if (i > 0)
+                i = lps[i - 1];
+            else
+                ++j;
+            
+            if (i == n)
+                matches.push_back(j - i), i = lps[i - 1];
+        }
+        
+        return matches;
+    }
+    
+    vector<int> getLPS(void)
+    {
+        return lps;
+    }
+};

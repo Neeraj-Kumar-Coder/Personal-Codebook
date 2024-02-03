@@ -52,3 +52,9 @@
 >> **Time Complexity (findPairForMaxXor):** $O(BITS)$ <br />
 >> **Space Complexity:** O($2^{BITS}$) <br />
 >> `[Here BITS is the maximum number of bits in the binary representation of the inserted numbers]`
+
+- <font size="3">[KMP Pattern Matching](KMP.txt) </font>
+>> **Time Complexity (build):** $O(n)$ <br />
+>> **Time Complexity (getMatches):** $O(n + m)$ <br />
+>> **Space Complexity:** $O(n)$ <br />
+>> `[Here 'n' is pattern length and 'm' is text length]`
