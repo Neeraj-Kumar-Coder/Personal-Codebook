@@ -36,4 +36,9 @@ public:
     {
         return minCollection.front();
     }
+
+    bool empty(void)
+    {
+        return maxCollection.empty() && minCollection.empty();
+    }
 };

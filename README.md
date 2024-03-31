@@ -33,6 +33,7 @@
 - <font size="3">[Window Manager](Window_Manager.txt) </font>
 >> **Time Complexity (push):** $O(1)$ [Average] <br />
 >> **Time Complexity (pop):** $O(1)$ [Average] <br />
+>> **Time Complexity (empty):** $O(1)$ <br />
 >> **Space Complexity:**  $O(n)$
 
 - <font size="3">[Digit DP BoilerPlate](Digit_DP_BoilerPlate.txt) </font>
