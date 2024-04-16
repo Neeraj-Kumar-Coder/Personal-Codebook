@@ -13,21 +13,22 @@
 
 - <font size="3">[Segment Tree For Minimum (Point Update)](Segment_Tree_Point.txt) </font>
 >> **Time Complexity (Building):**  $O(n)$ <br />
->> **Time Complexity (Query):** $O(n\log{n})$ <br />
->> **Time Complexity (Update):** $O(n\log{n})$ <br />
+>> **Time Complexity (Query):** $O(\log{n})$ <br />
+>> **Time Complexity (assign):** $O(\log{n})$ <br />
+>> **Time Complexity (increment):** $O(\log{n})$ <br />
 >> **Space Complexity:**  $O(n)$
 
 - <font size="3">[Segment Tree For Minimum (Mass Update)](Segment_Tree_Mass.txt) </font>
 >> **Time Complexity (Building):**  $O(n)$ <br />
->> **Time Complexity (Query):** $O(n\log{n})$ <br />
+>> **Time Complexity (Query):** $O(\log{n})$ <br />
 >> **Time Complexity (Update):** $O(n\log{n})$ <br />
 >> **Space Complexity:**  $O(n)$
 
 - <font size="3">[AVL Tree (Generic)](AVL_Tree.txt) </font>
->> **Time Complexity (insert):** $O(n\log{n})$ <br />
->> **Time Complexity (remove):** $O(n\log{n})$ <br />
->> **Time Complexity (kthLargestElement):** $O(n\log{n})$ <br />
->> **Time Complexity (countOfGreater):** $O(n\log{n})$ <br />
+>> **Time Complexity (insert):** $O(\log{n})$ <br />
+>> **Time Complexity (remove):** $O(\log{n})$ <br />
+>> **Time Complexity (kthLargestElement):** $O(\log{n})$ <br />
+>> **Time Complexity (countOfGreater):** $O(\log{n})$ <br />
 >> **Space Complexity:**  $O(n)$
 
 - <font size="3">[Window Manager](Window_Manager.txt) </font>
@@ -42,8 +43,8 @@
 
 - <font size="3">[Binary Lifter](Binary_Lifter.txt) </font>
 >> **Time Complexity (build):** $O(n\log{n})$ <br />
->> **Time Complexity (getKthAncestor):** $O(n\log{n})$ <br />
->> **Time Complexity (getLCA):** $O(n\log{n})$ <br />
+>> **Time Complexity (getKthAncestor):** $O(\log{n})$ <br />
+>> **Time Complexity (getLCA):** $O(\log{n})$ <br />
 >> **Space Complexity:** $O(n\log{n})$
 
 - <font size="3">[Trie Numeric](Trie_Numeric.txt) </font>
