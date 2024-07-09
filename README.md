@@ -45,7 +45,7 @@
 >> **Time Complexity (build):** $O(n\log{n})$ <br />
 >> **Time Complexity (getKthAncestor):** $O(\log{n})$ <br />
 >> **Time Complexity (getLCA):** $O(\log{n})$ <br />
->> **Space Complexity:** $O(n\log{n})$
+>> **Space Complexity:** $O(n\log{n})$****
 
 - <font size="3">[Trie Numeric](Trie_Numeric.txt) </font>
 >> **Time Complexity (insert):** $O(BITS)$ <br />
@@ -60,3 +60,12 @@
 >> **Time Complexity (getMatches):** $O(n + m)$ <br />
 >> **Space Complexity:** $O(n)$ <br />
 >> `[Here 'n' is pattern length and 'm' is text length]`
+
+- <font size="3">[Aho Corasick Trie](Aho_Corasick_Trie.txt) </font>
+>> **Time Complexity (insert):** $O(n)$ <br />
+>> **Time Complexity (finalizeTrie):** $O(mk)$ <br />
+>> **Time Complexity (resetIterator):** $O(1)$ <br />
+>> **Time Complexity (proceed):** $O(1)$ <br />
+>> **Time Complexity (getSuffixes):** $O(\sqrt{n})$ <br />
+>> **Space Complexity:** $O(lk)$ <br />
+>> `[Here 'n' is length of string to be inserted, 'm' is sum of all lengths of string that is to be inserted, 'k' is the size of the alphabet, 'l' is the maximum number of children nodes]`

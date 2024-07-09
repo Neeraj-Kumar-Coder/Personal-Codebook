@@ -1,0 +1,119 @@
+struct AhoCorasickTrieNode
+{
+    int index;
+    AhoCorasickTrieNode *children[26];
+    AhoCorasickTrieNode *failureLink;
+    AhoCorasickTrieNode *outputLink;
+
+    AhoCorasickTrieNode(void)
+    {
+        this->index = -1;
+        this->failureLink = this->outputLink = nullptr;
+        for (short i = 0; i < 26; i++)
+            this->children[i] = nullptr;
+    }
+};
+
+class AhoCorasickTrie
+{
+private:
+    AhoCorasickTrieNode *root;
+    AhoCorasickTrieNode *itr;
+
+public:
+    AhoCorasickTrie(void)
+    {
+        this->root = new AhoCorasickTrieNode();
+    }
+
+    void insert(const string &word, const int &index)
+    {
+        AhoCorasickTrieNode *current = root;
+        for (auto &ch : word)
+        {
+            if (!current->children[ch - 'a'])
+                current->children[ch - 'a'] = new AhoCorasickTrieNode();
+            current = current->children[ch - 'a'];
+        }
+
+        current->index = index;
+    }
+
+    void finalizeTrie(void)
+    {
+        root->failureLink = root;
+        root->outputLink = nullptr;
+        queue<AhoCorasickTrieNode *> q;
+
+        for (short i = 0; i < 26; i++)
+        {
+            if (root->children[i])
+            {
+                root->children[i]->failureLink = root;
+                root->children[i]->outputLink = nullptr;
+                q.push(root->children[i]);
+            }
+        }
+
+        while (!q.empty())
+        {
+            AhoCorasickTrieNode *current = q.front();
+            q.pop();
+
+            for (short i = 0; i < 26; i++)
+            {
+                if (!current->children[i])
+                    continue;
+
+                AhoCorasickTrieNode *parentFailure = current->failureLink;
+                while (!parentFailure->children[i] && parentFailure != root)
+                    parentFailure = parentFailure->failureLink;
+
+                if (parentFailure->children[i])
+                    current->children[i]->failureLink = parentFailure->children[i];
+                else
+                    current->children[i]->failureLink = root;
+
+                if (current->children[i]->failureLink->index >= 0)
+                    current->children[i]->outputLink = current->children[i]->failureLink;
+                else
+                    current->children[i]->outputLink = current->children[i]->failureLink->outputLink;
+
+                q.push(current->children[i]);
+            }
+        }
+    }
+
+    void resetIterator(void)
+    {
+        this->itr = root;
+    }
+
+    bool proceed(const char &ch)
+    {
+        while (this->itr != root && !itr->children[ch - 'a'])
+            this->itr = this->itr->failureLink;
+
+        if (!this->itr->children[ch - 'a'])
+            return false;
+
+        this->itr = this->itr->children[ch - 'a'];
+        return true;
+    }
+
+    vector<int> getSuffixes(void)
+    {
+        AhoCorasickTrieNode *cur = this->itr;
+        vector<int> indexes;
+
+        while (cur)
+        {
+            if (cur->index >= 0)
+                indexes.push_back(cur->index);
+
+            cur = cur->outputLink;
+        }
+
+        return indexes;
+    }
+};
